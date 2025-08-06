@@ -21,10 +21,32 @@ class User extends Authenticatable implements MustVerifyEmail,CanResetPassword
     protected $fillable = [
         'name',
         'email',
+        'phone',
         'password',
         'phone',
     ];
 
+    public function companies()
+    {
+        return $this->belongsToMany(Company::class, 'company_users')
+                    ->withPivot('role', 'status', 'invited_at', 'joined_at', 'last_login_at', 'is_primary', 'permissions', 'notes', 'created_by', 'updated_by')
+                    ->withTimestamps();
+    }
+
+    public function ownedComapnies()
+    {
+        return $this->hasMany(Company::class, 'owner_id');
+    }
+
+    public function createdCompanies()
+    {
+        return $this->hasMany(Company::class, 'created_by');
+    }
+
+    public function updatedCompanies()
+    {
+        return $this->hasMany(Company::class, 'updated_by');
+    }
     /**
      * The attributes that should be hidden for serialization.
      *
