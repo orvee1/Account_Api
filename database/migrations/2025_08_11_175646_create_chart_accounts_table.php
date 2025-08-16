@@ -12,23 +12,23 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('chart_accounts', function (Blueprint $table) {
-             $table->id();
-            $table->foreignId('company_id')->constrained()->cascadeOnDelete();
+            $table->id();
+            $table->bigInteger('company_id');
             $table->string('account_no', 20);
-            $table->string('name');
-            $table->enum('type', ['asset','liability','equity','income','expense']);
+            $table->string('account_name');
+            $table->integer('account_type');
             $table->string('detail_type')->nullable();
-            $table->foreignId('parent_id')->nullable()->constrained('accounts')->nullOnDelete();
-            $table->boolean('is_header')->default(false);
+            $table->bigInteger('parent_account_id')->nullable()->default(0);
             $table->boolean('is_active')->default(true);
-            $table->decimal('balance', 20, 2)->default(0);
-            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
-            $table->foreignId('updated_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->decimal('opening_balance', 20, 2)->default(0);
+            $table->date('opening_date', 20, 2)->default(0);
+            $table->bigInteger('created_by')->nullable();
+            $table->bigInteger('updated_by')->nullable();
             $table->softDeletes();
             $table->timestamps();
 
             $table->unique(['company_id','account_no','deleted_at']);
-            $table->index(['company_id','parent_id']);
+            $table->index(['company_id','parent_account_id']);
         });
     }
 

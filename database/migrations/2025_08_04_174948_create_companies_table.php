@@ -23,11 +23,9 @@ return new class extends Migration
             $table->string('registration_no')->nullable();
             $table->string('website')->nullable();
             $table->enum('status',['active','inactive','suspended'])->default('active');
-            $table->boolean('is_verified')->default(false);
-            $table->foreignId('owner_id')->nullable()->constrained('users')->nullOnDelete();
-            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
-            $table->foreignId('updated_by')->nullable()->constrained('users')->nullOnDelete();
-            $table->foreignId('deleted_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->bigInteger('created_by')->nullable();
+            $table->bigInteger('updated_by')->nullable();
+            $table->bigInteger('deleted_by')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -18,5 +18,10 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        if (class_exists(\Database\Seeders\AccountTypeSeeder::class)) {
+            $this->call(AccountTypeSeeder::class);
+        }
+
     }
 }

@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('phone')->nullable();
+        Schema::create('account_types', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->integer('parent_id')->default(0);
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -21,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('phone');
-        });
+        Schema::dropIfExists('account_types');
     }
 };
